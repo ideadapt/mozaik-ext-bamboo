@@ -15,7 +15,10 @@ var Agents = React.createClass({
 
     getInitialState() {
         return {
-            agents: null
+            agents: null,
+            overall:{
+                state: 0
+            }
         };
     },
 
@@ -29,8 +32,14 @@ var Agents = React.createClass({
     },
 
     onApiData(agents) {
+        var states = agents.map(agent => {
+            return (agent.state === ('offline' || 'disabled')) ? 2 : 0;
+        });
         this.setState({
-            agents: agents
+            agents: agents,
+            overall: {
+                state: Math.max.apply(null, states)
+            }
         });
     },
 
@@ -60,6 +69,10 @@ var Agents = React.createClass({
                 </div>
             </div>
         );
+    },
+
+    componentDidUpdate() {
+        window.document.querySelector('.widget.bamboo__agents').setAttribute('data-state', this.state.overall.state);
     }
 });
 
