@@ -25,7 +25,7 @@ var client = function (mozaik) {
             )
             .promise()
             .catch((reason)=>{
-                mozaik.logger.error(chalk.red(`[bamboo] request failed: ${reason}`));
+                mozaik.logger.error(chalk.red(`[bamboo] request failed: ${JSON.stringify(reason)}`));
             });
     }
 
@@ -71,7 +71,7 @@ var client = function (mozaik) {
                         , baseUrl: config.get('bamboo.baseUrl')
                     };
                 }).catch((reason)=>{
-                    mozaik.logger.error(chalk.red(`[bamboo] plan_requests failed: ${reason}`));
+                    mozaik.logger.error(chalk.red(`[bamboo] plan_requests failed: ${JSON.stringify(reason)}`));
                 });
         }
         , agents(parameters) {
@@ -81,7 +81,7 @@ var client = function (mozaik) {
             return request.then((response)=>{
                return getAgents(response.text, agentIds);
             }).catch((reason)=>{
-                mozaik.logger.error(chalk.red(`[bamboo] agents failed: ${reason}`));
+                mozaik.logger.error(chalk.red(`[bamboo] agents failed: ${JSON.stringify(reason)}`));
             });
         }
     };

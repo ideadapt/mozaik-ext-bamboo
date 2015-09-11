@@ -15,7 +15,10 @@ var PlanResults = React.createClass({
 
     getInitialState() {
         return {
-            planResults: null
+            planResults: null,
+            overall:{
+                state: 0
+            }
         };
     },
 
@@ -29,9 +32,15 @@ var PlanResults = React.createClass({
     },
 
     onApiData(planResults) {
+        var states = planResults.results.map(result => {
+            return (result.state !== ('Successful')) ? 2 : 0;
+        });
         this.setState({
             planResults: planResults.results
             , baseUrl: planResults.baseUrl
+            , overall: {
+                state: Math.max.apply(null, states)
+            }
         });
     },
 
@@ -61,6 +70,10 @@ var PlanResults = React.createClass({
                 </div>
             </div>
         );
+    },
+
+    componentDidUpdate() {
+        window.document.querySelector('.widget.bamboo__plan-results').setAttribute('data-state', this.state.overall.state);
     }
 });
 
