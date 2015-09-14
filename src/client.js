@@ -79,7 +79,10 @@ var client = function (mozaik) {
                 , request = buildRequest('/agent/viewAgents.action');
 
             return request.then((response)=>{
-               return getAgents(response.text, agentIds);
+               return {
+                results: getAgents(response.text, agentIds)
+                , baseUrl: config.get('bamboo.baseUrl')
+            };
             }).catch((reason)=>{
                 mozaik.logger.error(chalk.red(`[bamboo] agents failed: ${JSON.stringify(reason)}`));
             });

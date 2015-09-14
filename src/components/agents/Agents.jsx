@@ -32,11 +32,12 @@ var Agents = React.createClass({
     },
 
     onApiData(agents) {
-        var states = agents.map(agent => {
+        var states = agents.results.map(agent => {
             return (agent.state === ('offline' || 'disabled')) ? 2 : 0;
         });
         this.setState({
-            agents: agents,
+            agents: agents.results,
+            baseUrl: agents.baseUrl,
             overall: {
                 state: Math.max.apply(null, states)
             }
@@ -66,6 +67,7 @@ var Agents = React.createClass({
                 </div>
                 <div className="widget__body">
                     { agentsListNode }
+                    <a href={`${this.state.baseUrl}/agent/viewAgents.action`} className="table__cell"><i className="fa fa-external-link" />List of Agents</a>
                 </div>
             </div>
         );
